@@ -1,4 +1,4 @@
-package net.javaguides.springboot.exception;
+package com.challenge.exception;
 
 import org.springframework.web.bind.annotation.ResponseStatus;
 

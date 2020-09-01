@@ -1,68 +1,45 @@
-package net.javaguides.springboot.service;
+package com.challenge.service;
 
 import java.util.List;
 import java.util.Optional;
 
+import com.challenge.dbobjects.ItemDB;
+import com.challenge.dbobjects.ItemDbMapper;
+import com.challenge.exception.ResourceNotFoundException;
+import com.challenge.repository.ItemRepository;
+
+import com.challenge.model.Item;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
-import org.springframework.transaction.annotation.Transactional;
-
-import net.javaguides.springboot.exception.ResourceNotFoundException;
-import net.javaguides.springboot.model.Item;
-import net.javaguides.springboot.repository.ItemRepository;
 
 @Service
-@Transactional
 public class ItemServiceImpl implements ItemService {
 
 	@Autowired
 	private ItemRepository itemRepository;
 
-	@Override
-	public Item createItem(Item item) {
-		return itemRepository.save(item);
-	}
+	@Autowired
+	private ItemDbMapper itemDbMapper;
 
 	@Override
-	public Item updateItem(Item item) {
-		Optional<Item> productDb = this.itemRepository.findById(item.getId());
-		
-		if(productDb.isPresent()) {
-			Item itemUpdate = productDb.get();
-			itemUpdate.setId(item.getId());
-			itemUpdate.setName(item.getName());
-			itemUpdate.setDescription(item.getDescription());
-			itemRepository.save(itemUpdate);
-			return itemUpdate;
-		}else {
-			throw new ResourceNotFoundException("No se encontró item con id: " + item.getId());
-		}		
+	public Item createItem(Item item) {
+		ItemDB itemDB = itemRepository.save(itemDbMapper.mappObject(item));
+		return itemDbMapper.mappObject(itemDB);
 	}
 
 	@Override
 	public List<Item> getAllItems() {
-		return this.itemRepository.findAll();
+		List<ItemDB> itemsDB = itemRepository.findAll();
+		return itemDbMapper.mappObjects(itemsDB);
 	}
 
 	@Override
 	public Item getItemById(Long itemId) {
-		Optional<Item> itemDb = this.itemRepository.findById(itemId);
-		
-		if(itemDb.isPresent()) {
-			return itemDb.get();
-		}else {
-			throw new ResourceNotFoundException("No se encontró item con id: " + itemId);
-		}
-	}
-
-	@Override
-	public void deleteItem(Long itemId) {
-		Optional<Item> itemDb = this.itemRepository.findById(itemId);
-		
-		if(itemDb.isPresent()) {
-			this.itemRepository.delete(itemDb.get());
-		}else {
-			throw new ResourceNotFoundException("No se encontró item con id: " + itemId);
+		Optional<ItemDB> itemDB = itemRepository.findById(itemId);
+		if(itemDB.isPresent()) {
+			return  itemDbMapper.mappObject(itemDB.get());
+		} else {
+			throw new ResourceNotFoundException("El item con id: " + itemId + " no fue encontrado");
 		}
 	}
 

@@ -1,0 +1,25 @@
+<div style="padding: 13px;">
+    <div *ngIf="!cart" class="containerCenter">
+        <mat-spinner></mat-spinner>
+    </div>
+
+    <h1>Mi carrito</h1>
+
+    <h2>Total: ${{cart.total}}</h2>
+    <h2>Total con descuento: ${{cart.totalWithDiscount}}</h2>
+    <button mat-button (click)="finishBuy()">Finalizar compra</button>
+    <button mat-button (click)="emptyCart()">Vaciar carrito</button>
+
+    <div class="containerItems">
+        <mat-card *ngFor="let item of cart.items" class="item">
+            <mat-card-header>
+                <mat-card-title>{{item.item.name}}</mat-card-title>
+                <mat-card-subtitle>${{item.item.price}} ({{item.quantity}})</mat-card-subtitle>
+            </mat-card-header>
+            <mat-card-actions class="containerButtons">
+                <button mat-button (click)="removeItemUnity(item)">Quitar unidad</button>
+                <button mat-button (click)="removeItem(item)">Quitar item</button>
+            </mat-card-actions>
+        </mat-card>
+    </div>
+</div>

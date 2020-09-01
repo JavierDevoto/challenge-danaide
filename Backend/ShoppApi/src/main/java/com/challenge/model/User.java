@@ -9,11 +9,11 @@ import lombok.Setter;
 @Setter
 @NoArgsConstructor
 @AllArgsConstructor
-public class Item {
-	
-	protected Long id;
-	protected String name;
-	protected String description;
-	protected Double price;
+public class User {
+
+    protected String username;
+    protected String firstName;
+    protected String lastName;
+    protected Boolean vip = false;
 
 }

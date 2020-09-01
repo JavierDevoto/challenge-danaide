@@ -1,5 +1,6 @@
-package net.javaguides.springboot;
+package com.challenge;
 
+import com.challenge.startup.DataStartup;
 import org.springframework.boot.SpringApplication;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 

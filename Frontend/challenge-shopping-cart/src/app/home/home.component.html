@@ -1,0 +1,22 @@
+<div style="padding: 13px;">
+    <div *ngIf="items.length === 0" class="containerCenter">
+        <mat-spinner></mat-spinner>
+    </div>
+
+    <h1>Tienda</h1>
+
+    <div class="containerItems">
+        <mat-card *ngFor="let item of items" class="item">
+            <mat-card-header>
+                <mat-card-title>{{item.name}}</mat-card-title>
+                <mat-card-subtitle>${{item.price}}</mat-card-subtitle>
+            </mat-card-header>
+            <mat-card-content>
+                <p>{{item.description}}</p>
+            </mat-card-content>
+            <mat-card-actions class="containerCenter">
+                <button mat-button (click)="addItem(item)">Agregar item</button>
+            </mat-card-actions>
+        </mat-card>
+    </div>
+</div>
